@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>singleboid</title>
+</head>
+<body>
+	<h2>1. single boid</h2>	
+	<p>I started by designing a boid with the following properties</p>
+	<ul>
+		<li>x,y: position</li>
+		<li>theta: angle direction</li>
+		<li>s: speed</li>
+	</ul>
+	<p>The boid resets when out of bounds</p>
+	<canvas id="canvas1" width="400" height="400"></canvas>
+	<script type="text/javascript">
+		const canvas = document.getElementById("canvas1");
+		const width = canvas.width;
+		const height = canvas.height;
+		let x = width / 2;
+		let y = height / 2;
+		let theta = Math.random() * Math.PI * 2;
+		let speed = 2;
+		function outofbounds(x, y) {
+			return (x < 0 || x > width || y < 0 || y > height)
+		}
+		function draw() {
+			if (!canvas.getContext) {
+				throw new Error("No context for canvas");
+			}
+			const ctx = canvas.getContext("2d");
+			const vx = speed * Math.cos(theta);
+			const vy = speed * Math.sin(theta);
+   			x += vx;
+   			y += vy;
+    		if (outofbounds(x, y)) {
+    			x = width/2;
+    			y = height/2;
+    			theta = Math.random() * Math.PI * 2;
+    		}
+			ctx.clearRect(0, 0, width, height);
+			
+			ctx.beginPath();
+    		ctx.arc(x, y, 10, theta-Math.PI/2, theta+Math.PI/2);
+   			ctx.closePath();
+    		ctx.stroke();
+   			ctx.beginPath();
+   			ctx.arc(x, y, 2, 0, Math.PI*2);
+   			ctx.stroke();
+			
+			window.requestAnimationFrame(draw);
+		}	
+		window.requestAnimationFrame(draw);
+	</script>
+	</div>
+	<style type="text/css">
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</body>
+</html>

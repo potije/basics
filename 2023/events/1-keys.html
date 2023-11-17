@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>1-keys</title>
+</head>
+<body>
+	<input class="input"><br>
+	<canvas id="canvas" width="600" height="600"></canvas>
+	<script type="text/javascript">
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		const input = document.querySelector(".input")
+		ctx.font = "30px Arial";
+
+		function keydown(event) {
+			console.log(event.key)
+			console.log(event.ctrlKey)
+			ctx.fillText(event.key, Math.random()*canvas.width, Math.random()*canvas.height); 
+		}
+
+		input.addEventListener("keydown", keydown)
+	</script>
+	<style type="text/css">
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</body>
+</html>

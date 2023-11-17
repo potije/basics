@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>thought</title>
+</head>
+<body style="margin: 0">
+	<canvas id="canvas" style="border: 1px solid black"></canvas>
+	<script type="text/javascript">
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		const fontsize = 120;
+		const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!? ";
+		ctx.font = fontsize+"pt Arial";
+		console.log(ctx.font);
+		ctx.textAlign = "center"
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		let word = "";
+		let dyingwords = [];
+		
+		class Word {
+			constructor(w, x, y) {
+				this.w = w;
+				this.x = x;
+				this.y = y;
+				this.angle = Math.random()*Math.PI*2;
+				this.vx = Math.random()*2-1;
+				this.vy = Math.random()*2-1;
+				this.life = 120;
+				this.speed = 5;
+			}
+			update() {
+				this.x += Math.cos(this.angle) * this.speed;
+    			this.y += Math.sin(this.angle) * this.speed;
+    			this.life--;
+			}
+			draw(ctx) {
+				ctx.font = "30px Arial";
+				ctx.fillStyle = "rgba(0, 0, 0, " + this.life/120 + ")";
+				ctx.fillText(this.w, this.x, this.y);
+			}
+
+		}
+
+		function keydown(event) {
+			let regex = new RegExp(event.key);
+			console.log(event.key);
+
+			if (regex.test(chars)) {
+				word += event.key;
+			} else if (event.key == "Enter") {
+				dyingwords.push(new Word(word, canvas.width/2-(word.length*30/4), canvas.height/2));
+				word="";
+			} else if (event.code == "Backspace") {
+				console.log("test");
+				word = word.slice(0,-1);
+				console.log(word);
+			}
+		}
+
+		function resize() {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+
+		function cycle() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			dyingwords.forEach((word, i) => {
+				if (word.life == 0) {
+					dyingwords.splice(i, 1);
+				} else {
+					word.update();
+					word.draw(ctx);
+				}
+			});
+			ctx.font = "30px Arial";
+			ctx.fillStyle = "rgb(0, 0, 0)"	
+			ctx.fillText(word, canvas.width/2-(word.length*30/4), canvas.height/2);
+			window.requestAnimationFrame(cycle)
+		}
+
+		window.addEventListener("keydown", keydown);
+		window.addEventListener("resize", resize);
+		window.requestAnimationFrame(cycle);
+	</script>
+</body>
+</html>

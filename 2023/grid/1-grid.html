@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>1-grid</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="text/javascript">
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		let rows = 10;
+		let cols = 10;
+		var grid = new Array(rows).fill().map(() => new Array(cols).fill().map(() => Math.random()));
+		console.log(grid);
+		function handleResize() {
+			canvas.width = window.innerWidth - 50;
+			canvas.height = window.innerHeight - 50;
+			cellwidth = canvas.width/cols;
+			cellheight = Math.floor(canvas.height/rows);
+			for (let i = 0; i < cols; i++) {
+				ctx.beginPath();
+				ctx.moveTo(i*cellwidth, 0)
+				ctx.lineTo(i*cellwidth,canvas.height);
+				ctx.stroke()
+			}
+			for (let i = 0; i < rows; i++) {
+				ctx.beginPath();
+				ctx.moveTo(0, i*cellheight)
+				ctx.lineTo(canvas.width,i*cellheight);
+				ctx.stroke()
+			}
+		}
+		window.addEventListener("load", handleResize);
+		window.addEventListener("resize", handleResize);
+	</script>
+	<style type="text/css">
+		body {
+			display: flex;
+			justify-content: center;
+		}
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</body>
+</html>
