@@ -9,45 +9,7 @@
 <main>
 	<canvas id="canvas" style="border: 1px solid black;"></canvas>
 </main>
-<script type="text/javascript">
-canvas = document.getElementById("canvas");
-canvas.width = 400;
-canvas.height = 400;
-const ctx = canvas.getContext("2d");
-const gravity = {x: 0, y: 0.4};
-
-class Character {
-	constructor(x, y) {
-		this.pos = {x: x, y: y}
-		this.vel = {x: 0, y: 0}
-	}
-
-	update() {
-		this.vel.x += gravity.x;
-		this.vel.y += this.pos.y+20 >= 400 ? 0 : gravity.y;
-		this.pos.x += this.vel.x;
-		this.pos.y += this.vel.y;
-		if (this.pos.y+20 > 400) {
-			this.pos.y = 400-20;
-			this.vel.y = Math.round(-Math.abs(this.vel.y) * 0.5);
-			console.log(this.vel.y)
-		}
-	}
-
-	draw() {
-		ctx.fillRect(this.pos.x, this.pos.y, 20, 20)
-	}
-}
-let c = new Character(100,100);
-
-function cycle() {
-	ctx.clearRect(0,0,canvas.width, canvas.height);
-	c.update();
-	c.draw();
-	window.requestAnimationFrame(cycle);
-}
-
-window.requestAnimationFrame(cycle);
+<script type="text/javascript" src="index.js">
 </script>
 </body>
 </html>
