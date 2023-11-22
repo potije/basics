@@ -8,18 +8,24 @@
 <body>
 <main>
 	<form action="" id="loginForm">
-		<label>Username:</label>
-		<input type="text" placeholder="Enter Username" name="username" required><br>
-        <label>Password: </label>   
-        <input type="password" placeholder="Enter Password" name="password" required><br>
+		<label for="username">
+			Username:
+			<input id="username" name="username" type="text" placeholder="Enter Username" required autocomplete="username"><br>
+		</label>
+        <label for="password">
+        	Password: 
+        	<input id="password" name="password" type="password" placeholder="Enter Password" required autocomplete="current-password"><br>
+        </label>   
         <button type="submit">Login</button>
-        <input type="checkbox" checked="checked"> Remember me
 	</form>
 </main>
+
 <script type="text/javascript">
+
 const loginForm = document.getElementById("loginForm");
 
 async function formSubmit(e) {
+
 	// not reloading the page which is default behaviour
 	e.preventDefault();
 	const formData = new FormData(e.target);
@@ -29,14 +35,17 @@ async function formSubmit(e) {
 	console.log(authstring)
 
 	try {
-		const answer = await fetch("https://server1.qtlr.app:3000/login/", {
+		const answer = await fetch("https://server1.qtlr.app/login/", {
+			credentials: 'include',
 			headers: new Headers({
 				'Authorization': 'Basic ' + btoa(authstring)
 			}),
 		});
-		console.log(answer);
+		const text = await answer.text();
+		console.log(text);
 	} catch (err) {
 		console.log(err);
+		console.log("entering here?");
 	}
 }
 
