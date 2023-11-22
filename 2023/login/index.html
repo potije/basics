@@ -33,9 +33,9 @@ async function formSubmit(e) {
 	const password = formData.get("password");
 	const authstring = username+":"+password;
 	console.log(authstring)
-
 	try {
 		const answer = await fetch("https://server1.qtlr.app/login/", {
+			method: 'GET',
 			credentials: 'include',
 			headers: new Headers({
 				'Authorization': 'Basic ' + btoa(authstring)
